@@ -8,30 +8,30 @@ void main() {
   Football football = Football('Football', 11);
   Football defaultFootball = Football.withDefaultPlayers('Football');
 
-  // Демонстрация работы с массивом, коллекцией и множеством
   List<Football> footballTeams = [football, defaultFootball];
   Set<String> teamNames = {'Team A', 'Team B', 'Team C'};
   Map<String, int> teamScores = {'Team A': 1, 'Team B': 2};
 
-  // Работа с continue и break
   for (var team in footballTeams) {
     if (team.players < 11) {
-      continue; // Пропустить команды с менее чем 11 игроками
+      continue;
     }
     print('Team with ${team.players} players.');
     if (team.players == 11) {
-      break; // Прекратить цикл, если команда имеет 11 игроков
+      break;
     }
   }
 
-  // Обработка исключений
   try {
     football.play();
     football.substitutePlayer('Player 1');
     football.performAction(() => print('Action performed.'));
     football.showTeam(teamName: 'Champions');
     Football.showSportType();
-    throw Exception(";(");
+
+    var test = null;
+    test += 1;
+
   } catch (e) {
     print('An error occurred: $e');
   }

@@ -11,17 +11,16 @@ class Football extends TeamSport {
   String name;
   int players;
 
-  // Конструктор
   Football(this.name, this.players);
 
-  // Именованный конструктор
   Football.withDefaultPlayers(this.name) : players = 11;
 
-  // Getter и Setter
+
+  // get set
   int get playerCount => players;
   set playerCount(int count) => players = count;
 
-  // Реализация методов интерфейса и абстрактного класса
+
   @override
   void play() {
     print('$name is being played with $players players.');
@@ -32,13 +31,13 @@ class Football extends TeamSport {
     print('A football team has $players players.');
   }
 
-  // Статическое поле и функция
+
   static String sportType = 'Outdoor'; // На открытом воздухе
   static void showSportType() {
     print('Football is an $sportType sport.');
   }
 
-  // Функции с различными параметрами
+
   void scoreGoal({required String playerName}) {
     print('$playerName scored a goal!');
   }
