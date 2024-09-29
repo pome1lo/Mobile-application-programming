@@ -183,3 +183,19 @@ class Team implements Iterable<Player> {
     throw UnimplementedError();
   }
 }
+
+
+void main() {
+  Player player1 = Player('Alice', 90);
+  Player player2 = Player('Bob', 75);
+  Player player3 = Player('Charlie', 85);
+
+  Team team = Team([player1, player2, player3]);
+
+  List<Player> sortedPlayers = team.players..sort();
+
+  print('Players sorted by skill level:');
+  for (Player player in sortedPlayers) {
+    print('${player.name}: ${player.skillLevel}');
+  }
+}

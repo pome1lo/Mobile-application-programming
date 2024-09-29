@@ -17,3 +17,8 @@ class Football with Scoring {
     print('$name is being played with $players players.');
   }
 }
+
+void main() {
+  Football football = Football('Football', 11);
+  football.increaseScore();
+}

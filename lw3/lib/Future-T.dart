@@ -1,6 +1,5 @@
 import 'dart:async' show Future;
 
-// Асинхронная функция, имитирующая получение данных
 Future<String> fetchData() async {
   await Future.delayed(Duration(seconds: 2)); // Задержка 2 секунды
   return 'Data fetched';
@@ -9,22 +8,21 @@ Future<String> fetchData() async {
 void main() async {
   print('Fetching data...');
 
-  // Использование Future для ожидания результата
+
   fetchData().then((data) {
-    print(data); // Выводим полученные данные
+    print(data);
   }).catchError((error) {
-    print('An error occurred: $error'); // Обработка ошибок
+    print('An error occurred: $error');
   }).whenComplete(() {
-    print('Fetch data operation completed'); // Действие по завершении
+    print('Fetch data operation completed');
   });
 
-  // Альтернативный способ с использованием async/await
   try {
     String data = await fetchData();
-    print(data); // Выводим полученные данные
+    print(data);
   } catch (error) {
-    print('An error occurred: $error'); // Обработка ошибок
+    print('An error occurred: $error');
   } finally {
-    print('Fetch data operation completed'); // Действие по завершении
+    print('Fetch data operation completed');
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:async' show Future, Stream, StreamController;
 
-// Функция, создающая Single subscription stream
 Stream<int> countStream(int max) async* {
   for (int i = 1; i <= max; i++) {
     yield i;
