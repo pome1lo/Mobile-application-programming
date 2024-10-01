@@ -237,9 +237,9 @@ class _BluetoothStatusScreenState extends State<BluetoothStatusScreen> {
     });
   }
 
-  Future<void> _launchBrowser(String url) async {
+  Future<void> _launchBrowser() async {
     try {
-      await platform.invokeMethod('launchBrowser', {'url': url});
+      await platform.invokeMethod('launchBrowser', {'url': _url});
     } on PlatformException catch (e) {
       print("Failed to open browser: '${e.message}'.");
     }
@@ -265,7 +265,7 @@ class _BluetoothStatusScreenState extends State<BluetoothStatusScreen> {
               child: Text('Refresh Status'),
             ),
             ElevatedButton(
-              onPressed: () => _launchBrowser(_url),
+              onPressed: _launchBrowser,
               child: Text('Open Flutter Website'),
             ),
           ],

@@ -53,14 +53,14 @@ class MainActivity : FlutterActivity() {
     private fun launchBrowser(url: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.setData(Uri.parse(url))
-        val resolvedActivity = intent.resolveActivity(packageManager)
-
-        if (resolvedActivity != null) {
-            startActivity(intent)
-            println("Browser launched with URL: $url")
-        } else {
-            println("No activity found to handle the intent for URL: $url")
-        }
+        startActivity(intent)
+//        val resolvedActivity = intent.resolveActivity(packageManager)
+//
+//        if (resolvedActivity != null) {
+//            println("Browser launched with URL: $url")
+//        } else {
+//            println("No activity found to handle the intent for URL: $url")
+//        }
     }
 
     // Получение уровня заряда батареи
