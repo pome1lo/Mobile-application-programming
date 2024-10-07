@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: ProductListScreen(),
-       home: BluetoothStatusScreen(),
+      //home: ProductListScreen(),
+      home: BluetoothStatusScreen(),
       //home: BatteryStatusScreen(),
     );
   }
@@ -62,7 +62,6 @@ class ProductListScreen extends StatelessWidget {
         'https://via.placeholder.com/150/FFFF00'
       ],
     ),
-    // Add more products here...
   ];
 
   @override

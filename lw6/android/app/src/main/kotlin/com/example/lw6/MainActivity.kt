@@ -12,8 +12,8 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
-//    private val CHANNEL = "com.example/bluetooth"
-//    private val CHANNEL = "com.example/battery"
+    //private val CHANNEL = "com.example/bluetooth"
+    //private val CHANNEL = "com.example/battery"
     private val CHANNEL = "com.example/browser"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
