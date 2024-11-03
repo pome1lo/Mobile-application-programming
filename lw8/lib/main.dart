@@ -43,8 +43,12 @@ Future<void> _initializeData() async {
 
   final itemBox = Hive.box<Item>('items');
   if (itemBox.isEmpty) {
-    itemBox.add(Item(name: 'Item 1', description: 'Description for Item 1', price: 111.0));
-    itemBox.add(Item(name: 'Item 2', description: 'Description for Item 2', price: 222.0));
+    itemBox.add(Item(name: 'Item 1', description: 'Description for Item 1', price: 111.0, imageUrl: 'assets/images/1.jpg'));
+    itemBox.add(Item(name: 'Item 2', description: 'Description for Item 2', price: 222.0, imageUrl: 'assets/images/2.jpg'));
+    itemBox.add(Item(name: 'Item 3', description: 'Description for Item 3', price: 333.0, imageUrl: 'assets/images/3.jpg'));
+    itemBox.add(Item(name: 'Item 4', description: 'Description for Item 4', price: 444.0, imageUrl: 'assets/images/4.jpg'));
+    itemBox.add(Item(name: 'Item 5', description: 'Description for Item 5', price: 555.0, imageUrl: 'assets/images/5.jpg'));
+    itemBox.add(Item(name: 'Item 6', description: 'Description for Item 6', price: 666.0, imageUrl: 'assets/images/6.jpg'));
   }
 }
 
@@ -55,10 +59,18 @@ class MyApp extends StatelessWidget {
       title: 'Hive Example',
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: '/',
+      onGenerateRoute: (settings) {
+        if (settings.name == '/itemDetail') {
+          final item = settings.arguments as Item;
+          return MaterialPageRoute(
+            builder: (context) => ItemDetailPage(item: item),
+          );
+        }
+        return null;
+      },
       routes: {
         '/': (context) => UserSelectionPage(),
         '/itemList': (context) => ItemListPage(),
-        '/itemDetail': (context) => ItemDetailPage(),
       },
     );
   }

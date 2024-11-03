@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lw4_5/models/favorite_item.dart';
-import 'package:lw4_5/models/user.dart';
 import 'package:lw4_5/screens/admin_product_page.dart';
 import '../models/item.dart';
 import 'favorites_page.dart';
+import 'item_detail_page.dart'; // Импортируем экран описания
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ItemListPage extends StatelessWidget {
@@ -14,7 +14,6 @@ class ItemListPage extends StatelessWidget {
         MaterialPageRoute(builder: (context) => AdminProductPage()),
       );
     } else {
-      // Покажите сообщение, что доступ запрещен
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Access Denied')),
       );
@@ -23,12 +22,10 @@ class ItemListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Проверка наличия открытого бокса
     if (!Hive.isBoxOpen('users') || !Hive.isBoxOpen('items')) {
-      return Center(child: CircularProgressIndicator()); // Или сообщение об ошибке
+      return Center(child: CircularProgressIndicator());
     }
 
-    // Получение выбранного пользователя из аргументов
     final String userRole = ModalRoute.of(context)?.settings.arguments as String? ?? 'User';
 
     return Scaffold(
@@ -50,22 +47,76 @@ class ItemListPage extends StatelessWidget {
         valueListenable: Hive.box<Item>('items').listenable(),
         builder: (context, box, _) {
           final items = box.values.toList();
-          return ListView.builder(
+          return GridView.builder(
+            padding: const EdgeInsets.all(8.0),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 8.0,
+              crossAxisSpacing: 8.0,
+              childAspectRatio: 0.75,
+            ),
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
-              return ListTile(
-                title: Text(item.name),
+              return GestureDetector(
                 onTap: () {
-                  // Навигация к детальной странице товара
-                  Navigator.pushNamed(context, '/itemDetail', arguments: item);
+                  // Переход на экран описания
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ItemDetailPage(item: item),
+                    ),
+                  );
                 },
-                trailing: IconButton(
-                  icon: Icon(Icons.favorite),
-                  onPressed: () {
-                    final favoritesBox = Hive.box<FavoriteItem>('favorites');
-                    favoritesBox.add(FavoriteItem(itemName: item.name));
-                  },
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                          child: Image.asset(
+                            item.imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.name,
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.add_shopping_cart),
+                                  onPressed: () {
+                                    // Логика добавления в корзину
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.favorite_border),
+                                  onPressed: () {
+                                    final favoritesBox = Hive.box<FavoriteItem>('favorites');
+                                    favoritesBox.add(FavoriteItem(itemName: item.name));
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

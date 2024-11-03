@@ -13,5 +13,8 @@ class Item {
   @HiveField(2)
   final double price;
 
-  Item({required this.name, required this.description, required this.price});
+  @HiveField(3)
+  final String imageUrl;
+
+  Item({required this.name, required this.description, required this.price, required this.imageUrl});
 }

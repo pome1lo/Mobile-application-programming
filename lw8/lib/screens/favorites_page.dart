@@ -17,6 +17,16 @@ class FavoritesPage extends StatelessWidget {
               final favorite = favorites[index];
               return ListTile(
                 title: Text(favorite.itemName),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red),
+                  onPressed: () {
+                    // Удаление элемента из избранного
+                    box.deleteAt(index);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('${favorite.itemName} удален из избранного')),
+                    );
+                  },
+                ),
               );
             },
           );
