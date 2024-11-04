@@ -12,22 +12,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
 
-  // Регистрация адаптеров
   Hive.registerAdapter(ItemAdapter());
   Hive.registerAdapter(UserAdapter());
   Hive.registerAdapter(FavoriteItemAdapter());
 
-  // Удаление старых боксов, если это необходимо
   await Hive.deleteBoxFromDisk('items');
   await Hive.deleteBoxFromDisk('users');
   await Hive.deleteBoxFromDisk('favorites');
 
-  // Открытие боксов
   await Hive.openBox<Item>('items');
   await Hive.openBox<User>('users');
   await Hive.openBox<FavoriteItem>('favorites');
 
-  // Заполнение базы данных начальными данными (если нужно)
   await _initializeData();
 
   runApp(MyApp());

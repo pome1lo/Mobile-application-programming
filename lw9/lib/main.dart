@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:badges/badges.dart' as badges; // Используем алиас для Badge
+import 'package:badges/badges.dart' as badges;
 
 class CartItem {
   final Item item;
@@ -17,9 +17,9 @@ class Cart with ChangeNotifier {
   void addItem(Item item, int quantity) {
     final existingItemIndex = _items.indexWhere((cartItem) => cartItem.item.name == item.name);
     if (existingItemIndex >= 0) {
-      _items[existingItemIndex].quantity += quantity; // Увеличиваем количество
+      _items[existingItemIndex].quantity += quantity;
     } else {
-      _items.add(CartItem(item: item, quantity: quantity)); // Добавляем новый элемент с количеством
+      _items.add(CartItem(item: item, quantity: quantity));
     }
     notifyListeners();
   }
@@ -50,7 +50,6 @@ class Item {
   });
 }
 
-// Данные в формате JSON с путями к изображениям
 List<Item> items = [
   Item(
     name: 'Silent Horizon',
