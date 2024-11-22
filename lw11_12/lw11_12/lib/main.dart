@@ -1,14 +1,39 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'firebase_options.dart';
+
+// Настройка уведомлений
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // Фоновая обработка сообщений
+  print('Background message received: ${message.messageId}');
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // Запрос разрешений для iOS
+  await FirebaseMessaging.instance.requestPermission();
+
+  // Настройка локальных уведомлений
+  const AndroidNotificationDetails androidDetails =
+  AndroidNotificationDetails('main_channel', 'Main Channel',
+      importance: Importance.max, priority: Priority.high);
+
+  const NotificationDetails notificationDetails =
+  NotificationDetails(android: androidDetails);
+
   runApp(const MyApp());
 }
 
@@ -113,6 +138,46 @@ class _AuthPageState extends State<AuthPage> {
         SnackBar(content: Text(e.toString())),
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setupFirebaseMessaging();
+  }
+
+  void _setupFirebaseMessaging() {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    // Получение токена
+    messaging.getToken().then((token) {
+      print("FCM Token: $token");
+    });
+
+    // Обработка сообщений при открытом приложении
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        _showNotification(message.notification!);
+      }
+    });
+
+    // Обработка при клике на уведомление
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Message opened app: ${message.data}');
+    });
+  }
+
+  // Функция для отображения уведомления
+  void _showNotification(RemoteNotification notification) {
+    flutterLocalNotificationsPlugin.show(
+      notification.hashCode,
+      notification.title,
+      notification.body,
+      const NotificationDetails(
+        android: AndroidNotificationDetails('main_channel', 'Main Channel',
+            importance: Importance.max, priority: Priority.high),
+      ),
+    );
   }
 
   @override
