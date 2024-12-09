@@ -12,18 +12,18 @@ void main() {
     test('Successful login with email and password', () async {
       // Настройка моков для теста
       final user = MockUser(
-        email: 'paaworker@gmail.com',
+        email: 'example@gmail.com',
         displayName: 'Test User',
       );
       mockAuth = MockFirebaseAuth(mockUser: user);
 
       final userCredential = await mockAuth.signInWithEmailAndPassword(
-        email: 'paaworker@gmail.com',
+        email: 'example@gmail.com',
         password: '123456',
       );
 
       // Проверяем результат
-      expect(userCredential.user?.email, 'paaworker@gmail.com');
+      expect(userCredential.user?.email, 'example@gmail.com');
       expect(userCredential.user?.displayName, 'Test User');
     });
   });
